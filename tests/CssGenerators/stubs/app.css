@@ -1,0 +1,15 @@
+html {
+  font-size: 16px;
+}
+
+body {
+  background-image: url(/some-image.jpg);
+}
+
+.class {
+  color: lightred;
+}
+
+.other-class {
+  color: lightgreen;
+}

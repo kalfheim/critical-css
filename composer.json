@@ -1,0 +1,38 @@
+{
+  "name": "krisawzm/critical-css",
+  "description": "A Laravel package for generating and using inline critical-path CSS.",
+  "keywords": ["css", "performance", "laravel"],
+  "authors": [
+    {
+      "name": "Kristoffer Alfheim",
+      "email": "kristoffer.alfh@gmail.com"
+    }
+  ],
+  "license": "MIT",
+  "require": {
+    "php": ">=5.5.9",
+    "illuminate/contracts": "5.0.*|5.1.*",
+    "illuminate/support": "5.0.*|5.1.*",
+    "illuminate/http": "5.0.*|5.1.*",
+    "symfony/process": "2.7.*"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "~4.8|~5.0",
+    "mockery/mockery": "0.9.*"
+  },
+  "autoload": {
+    "psr-4": {
+      "Krisawzm\\CriticalCss\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "classmap": [
+      "tests/TestCase.php"
+    ]
+  },
+  "config": {
+      "preferred-install": "dist"
+  },
+  "minimum-stability": "dev",
+  "prefer-stable": true
+}
