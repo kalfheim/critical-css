@@ -1,4 +1,4 @@
-# critical-css
+# critical-css [![Build Status](https://travis-ci.org/krisawzm/critical-css.svg)](https://travis-ci.org/krisawzm/critical-css)
 
 A Laravel package for generating and using inline critical-path CSS.
 
