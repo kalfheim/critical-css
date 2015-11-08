@@ -3,7 +3,7 @@
 namespace Krisawzm\CriticalCss;
 
 use Illuminate\Support\ServiceProvider;
-use Illuminate\View\Compilers\BladeCompiler;
+use Krisawzm\CriticalCss\Storage\LaravelStorage;
 use Krisawzm\CriticalCss\HtmlFetchers\LaravelHtmlFetcher;
 use Krisawzm\CriticalCss\CssGenerators\CriticalGenerator;
 
@@ -14,28 +14,7 @@ class CriticalCssServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->singleton('criticalcss.htmlfetcher', function ($app) {
-            return new LaravelHtmlFetcher;
-        });
-
-        $this->app->singleton('criticalcss.cssgenerator', function ($app) {
-            $generator = new CriticalGenerator(
-                array_map('public_path', $app->config->get('criticalcss.css')),
-                $app->make('criticalcss.htmlfetcher')
-            );
-
-            $generator->setCriticalBin(
-                $app->config->get('criticalcss.critical_bin')
-            );
-
-            $generator->setOptions(
-                $app->config->get('criticalcss.width'),
-                $app->config->get('criticalcss.height'),
-                $app->config->get('criticalcss.ignore')
-            );
-
-            return $generator;
-        });
+        $this->registerAppBindings();
     }
 
     /**
@@ -47,9 +26,11 @@ class CriticalCssServiceProvider extends ServiceProvider
     {
         $this->setupConfig();
 
-        $this->registerBladeDirectives(
-            $this->app['view']->getEngineResolver()->resolve('blade')->getCompiler()
-        );
+        if ($this->app['config']->get('criticalcss.blade_directive')) {
+            BladeUtils::registerBladeDirective(
+                $this->app['view']->getEngineResolver()->resolve('blade')->getCompiler()
+            );
+        }
     }
 
     /**
@@ -71,74 +52,49 @@ class CriticalCssServiceProvider extends ServiceProvider
     }
 
     /**
-     * Register the @criticalCss directive with Blade.
-     *
-     * @param  \Illuminate\View\Compilers\BladeCompiler $blade
+     * Register Application bindings.
      *
      * @return void
      */
-    protected function registerBladeDirectives(BladeCompiler $blade)
+    protected function registerAppBindings()
     {
-        $blade->directive('criticalCss', [static::class, 'parseBladeDirective']);
-    }
+        $this->app->singleton('criticalcss.storage', function ($app) {
+            return new LaravelStorage(
+                $app['config']->get('criticalcss.storage'),
+                $app->make('filesystem')->disk($app['config']->get('filesystems.default')),
+                $app['config']->get('criticalcss.pretend')
+            );
+        });
 
-    /**
-     * Parse a Blade directive expression into inline CSS.
-     *
-     * @param  string $expr
-     *
-     * @return array
-     *
-     * @static
-     */
-    public static function parseBladeDirective($expr)
-    {
-        $uri  = static::parseUriFromExpression($expr);
+        $this->app->singleton('criticalcss.htmlfetcher', function ($app) {
+            return new LaravelHtmlFetcher(function () {
+                return require base_path('bootstrap/app.php');
+            });
+        });
 
-        $path = realpath(sprintf('%s/%s.css',
-                                  config('criticalcss.storage'),
-                                  urlencode($uri)));
+        // $this->app->singleton('criticalcss.htmlfetcher', function ($app) {
+        //     return new LaravelHtmlFetcher;
+        // });
 
-        if (!app('files')->exists($path)) {
-            $msg = sprintf(
-                'Critical-path CSS for URI [%s] not found at [%s]. '.
-                'Try running php artisan criticalcss:make and php artisan view:clear',
-                $uri,
-                $path
+        $this->app->singleton('criticalcss.cssgenerator', function ($app) {
+            $generator = new CriticalGenerator(
+                array_map('public_path', $app['config']->get('criticalcss.css')),
+                $app->make('criticalcss.htmlfetcher'),
+                $app->make('criticalcss.storage')
             );
 
-            app('log')->warning($msg);
+            $generator->setCriticalBin(
+                $app['config']->get('criticalcss.critical_bin')
+            );
 
-            return '<!-- '.$msg.' -->';
-        }
+            $generator->setOptions(
+                $app['config']->get('criticalcss.width'),
+                $app['config']->get('criticalcss.height'),
+                $app['config']->get('criticalcss.ignore')
+            );
 
-        return '<style>'.app('files')->get($path).'</style>';
-    }
-
-    /**
-     * Parse the URI from a Blade expression.
-     *
-     * @param  string $expr
-     *
-     * @return string
-     *
-     * @static
-     */
-    public static function parseUriFromExpression($expr)
-    {
-        if (is_null($expr)) {
-            // Return the current route if no argument is given.
-            return app('router')->current()->getUri();
-        }
-
-        $expr = trim($expr, '()\'" ');
-
-        if ($expr !== '/') {
-            // Remove leading slash, if any.
-            return ltrim($expr, '/');
-        }
-
-        return $expr;
+            return $generator;
+        });
     }
 
     /**
@@ -147,6 +103,7 @@ class CriticalCssServiceProvider extends ServiceProvider
     public function provides()
     {
         return [
+            'criticalcss.storage',
             'criticalcss.htmlfetcher',
             'criticalcss.cssgenerator',
         ];

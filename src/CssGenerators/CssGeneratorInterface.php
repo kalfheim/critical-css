@@ -2,10 +2,11 @@
 
 namespace Krisawzm\CriticalCss\CssGenerators;
 
+use Krisawzm\CriticalCss\Storage\StorageInterface;
 use Krisawzm\CriticalCss\HtmlFetchers\HtmlFetcherInterface;
 
 /**
- * The purpose of this interface is to generate critical-path CSS.
+ * The purpose of this interface is to generate and store critical-path CSS.
  */
 interface CssGeneratorInterface
 {
@@ -13,19 +14,25 @@ interface CssGeneratorInterface
      * This class generates critical-path CSS.
      *
      * @param  array $css  Files to extract CSS from.
+     *
      * @param  \Krisawzm\CriticalCss\HtmlFetchers\HtmlFetcherInterface $htmlFetcher
      *         Provides the HTML source to be operated against.
      *
-     * @return \Krisawzm\CriticalCss\CssGenerators\CssGeneratorInterface
+     * @param \Krisawzm\CriticalCss\Storage\StorageInterface $storage
+     *         Provides a storage driver to write the output to.
+     *
+     * @return void
      */
-    public function __construct(array $css, HtmlFetcherInterface $htmlFetcher);
+    public function __construct(array $css,
+                                HtmlFetcherInterface $htmlFetcher,
+                                StorageInterface $storage);
 
     /**
      * Generate critical-path CSS for a given URI.
      *
      * @param  string $uri  The given URI to generate critical-path CSS for.
      *
-     * @return string       The critical-path CSS.
+     * @return bool         Indicating successful write to the StorageInterface.
      *
      * @throws \Krisawzm\CriticalCss\CssGenerators\CssGeneratorException
      */

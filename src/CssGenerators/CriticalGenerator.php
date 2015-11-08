@@ -2,12 +2,12 @@
 
 namespace Krisawzm\CriticalCss\CssGenerators;
 
-use Symfony\Component\Process\Process;
 use Symfony\Component\Process\ProcessBuilder;
+use Krisawzm\CriticalCss\Storage\StorageInterface;
 use Krisawzm\CriticalCss\HtmlFetchers\HtmlFetcherInterface;
 
 /**
- * Generates critical-path CSS using the Critical tool.
+ * Generates critical-path CSS using the Critical npm package.
  *
  * @see https://github.com/addyosmani/critical
  */
@@ -18,6 +18,9 @@ class CriticalGenerator implements CssGeneratorInterface
 
     /** @var \Krisawzm\CriticalCss\HtmlFetchers\HtmlFetcherInterface */
     protected $htmlFetcher;
+
+    /** @var \Krisawzm\CriticalCss\Storage\StorageInterface */
+    protected $storage;
 
     /** @var string */
     protected $criticalBin = 'critical';
@@ -34,10 +37,13 @@ class CriticalGenerator implements CssGeneratorInterface
     /**
      * {@inheritdoc}
      */
-    public function __construct(array $css, HtmlFetcherInterface $htmlFetcher)
+    public function __construct(array $css,
+                                HtmlFetcherInterface $htmlFetcher,
+                                StorageInterface $storage)
     {
         $this->css         = $css;
         $this->htmlFetcher = $htmlFetcher;
+        $this->storage     = $storage;
     }
 
     /**
@@ -102,10 +108,13 @@ class CriticalGenerator implements CssGeneratorInterface
 
         if (!$process->isSuccessful()) {
             throw new CssGeneratorException(
-                sprintf('Error processing URI [%s].', $uri)
+                sprintf('Error processing URI [%s]. This is probably caused by '.
+                        'the Critical npm package. Make sure the `critical_bin`'.
+                        ' config option is correct. You may also try running '.
+                        '`npm install` again.', $uri)
             );
         }
 
-        return $process->getOutput();
+        return $this->storage->writeCss($uri, $process->getOutput());
     }
 }

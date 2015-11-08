@@ -2,7 +2,7 @@
 
 /**
  * Some of the following configuration options are the same as the ones you'll
- * find in the Critical tool.
+ * find in the Critical npm package.
  *
  * @see https://github.com/addyosmani/critical  For more info.
  */
@@ -17,32 +17,33 @@ return [
     | If 'null' is specified, all 'GET' routes will be used automatically. Use
     | this option with caution.
     |
+    | It is recommended that you specifically define the routes in an array.
+    |
+    | For 'static' routes with no parameters, simply add the route URI
+    | verbatim.
+    |
+    | However, for routes containing parameters, add an item with both a key
+    | and a value. The _key_ is an alias which is what you'll reference in
+    | Blade. The _value_ is the URI to request HTML from (the route with the
+    | parameters filled out.) Make sure the request won't 404.
+    |
     */
-    'routes' => null,
+    'routes' => [
+        // 'static/route',               // In Blade: `@criticalCss('static/route')`
+        // 'users/profile' => 'users/1', // In Blade: `@criticalCss('users/profile')`
+    ],
 
     /*
     |--------------------------------------------------------------------------
     | CSS file(s)
     |--------------------------------------------------------------------------
     |
-    | CSS files to extract from. (Usually the application's main CSS file(s).)
+    | CSS files to extract from. (The application's main CSS file(s).)
     |
     | The file is relative to the public path, i.e., `public_path($css)`.
     |
     */
     'css' => ['css/app.css', 'css/app2.css'],
-
-    /*
-    |--------------------------------------------------------------------------
-    | Storage Path
-    |--------------------------------------------------------------------------
-    |
-    | The directory which the generated critical-path CSS is stored.
-    | This can really be anywhere, but it is recommended to keep it in the
-    | default resources directory.
-    |
-    */
-    'storage' => base_path('resources/critical-css'),
 
     /*
     |--------------------------------------------------------------------------
@@ -78,18 +79,39 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Auto-Clear Views
+    | Storage Path
     |--------------------------------------------------------------------------
     |
-    | The critical-path CSS is injected directly into each Blade view.
-    | When changes are made to the critical-path CSS files, the views which
-    | include critical-path CSS must be refreshed for the changes to be take
-    | effect.
-    | With this option enabled, `php artisan view:clear` will be executed
-    | automatically after critical-path CSS is generated.
+    | The directory which the generated critical-path CSS is stored.
     |
     */
-    'clear_views' => true,
+    'storage' => 'critical-css',
+
+    /*
+    |--------------------------------------------------------------------------
+    | Pretend Mode
+    |--------------------------------------------------------------------------
+    |
+    | When this option is enabled, no critical-path will be inlined. This
+    | is very useful during development, as you don't want the inlined styles
+    | interfering after you've updated your main stylesheets.
+    |
+    | Remember to run `php artisan view:clear` after re-disabling this.
+    |
+    */
+    'pretend' => env('CRITICALCSS_PRETEND', false),
+
+    /*
+    |--------------------------------------------------------------------------
+    | Blade Directive
+    |--------------------------------------------------------------------------
+    |
+    | Enable this to get access to the `@criticalCss($uri)` Blade directive.
+    | This is the recommended behavior for Laravel 5.1 and newer.
+    | If your app is running on Laravel 5.0, this must be disabled.
+    |
+    */
+    'blade_directive' => true,
 
     /*
     |--------------------------------------------------------------------------
@@ -98,7 +120,7 @@ return [
     |
     | Path to the Critical executable. If you have installed Critical in the
     | project only, the default should be used. However, if Critical is
-    | installed globally, you can simply use 'critical'.
+    | installed globally, you may simply use 'critical'.
     |
     */
     'critical_bin' => base_path('node_modules/.bin/critical'),

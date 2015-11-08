@@ -1,40 +1,41 @@
 <?php
 
 use Mockery as m;
+use Krisawzm\CriticalCss\Storage\StorageInterface;
 use Krisawzm\CriticalCss\CssGenerators\CriticalGenerator;
+use Krisawzm\CriticalCss\HtmlFetchers\HtmlFetcherInterface;
 
 class CriticalGeneratorTest extends TestCase
 {
     protected $css;
     protected $html;
+    protected $html_with_css;
 
     public function __construct()
     {
         $this->css = [realpath(__DIR__.'/stubs/app.css')];
         $this->html = realpath(__DIR__.'/stubs/foo.html');
+        $this->html_with_css = realpath(__DIR__.'/stubs/foo_with_css.html');
     }
 
     public function testGenerate()
     {
-        $g = $this->mockGenerator();
-
-        $g->setOptions();
-
-        $this->assertEquals(
-            'html{font-size:16px}body{background-image:url(/some-image.jpg)}.class{color:lightred}.other-class{color:#90ee90}',
-            $g->generate('foo')
+        $this->doATestWith(
+            'foo',
+            file_get_contents($this->html),
+            'html{font-size:16px}body{background-image:url(/some-image.jpg)}.class{color:lightred}.other-class{color:#90ee90}'
         );
     }
 
     public function testGenerateWithIgnoredRules()
     {
-        $g = $this->mockGenerator();
-
-        $g->setOptions(900, 1300, ['.class', '/url(/']);
-
-        $this->assertEquals(
+        $this->doATestWith(
+            'foo',
+            file_get_contents($this->html),
             'html{font-size:16px}.other-class{color:#90ee90}',
-            $g->generate('foo')
+            ['width' => 900, 'height' => 1300, 'ignore' => [
+                '.class', '/url(/'
+            ]]
         );
     }
 
@@ -43,32 +44,53 @@ class CriticalGeneratorTest extends TestCase
      */
     public function testFailingGeneration()
     {
-        $g = $this->mockGenerator();
+        $fetcher = m::mock(HtmlFetcherInterface::class);
+        $fetcher->shouldReceive('fetch')->once()
+                ->with('foo')
+                ->andReturn('<html>');
+
+        $storage = m::mock(StorageInterface::class);
+
+        $g = new CriticalGenerator($this->css, $fetcher, $storage);
+
+        $g->setCriticalBin('this-doesnt-exist-'.mt_rand());
 
         $g->setOptions();
-
-        $g->setCriticalBin('this-doesnt-exist');
 
         $g->generate('foo');
     }
 
-    protected function mockGenerator()
+    /**
+     * @param string $uri
+     * @param string $rawHtml
+     * @param string $expectedCss
+     * @param array  $options
+     */
+    protected function doATestWith($uri, $rawHtml, $expectedCss, $options = [])
     {
-        $g = new CriticalGenerator($this->css, $this->mockHtmlFetcher());
-
-        $g->setCriticalBin(realpath(__DIR__.'/../../node_modules/.bin/critical'));
-
-        return $g;
-    }
-
-    protected function mockHtmlFetcher()
-    {
-        $fetcher = m::mock('Krisawzm\CriticalCss\HtmlFetchers\HtmlFetcherInterface');
-
+        $fetcher = m::mock(HtmlFetcherInterface::class);
         $fetcher->shouldReceive('fetch')->once()
-                ->with('foo')
-                ->andReturn(file_get_contents($this->html));
+                ->with($uri)
+                ->andReturn($rawHtml);
 
-        return $fetcher;
+        $storage = m::mock(StorageInterface::class);
+        $storage->shouldReceive('writeCss')->once()
+                ->with($uri, $expectedCss)
+                ->andReturn(true);
+
+        $g = new CriticalGenerator($this->css, $fetcher, $storage);
+
+        $g->setCriticalBin(
+            realpath(__DIR__.'/../../node_modules/.bin/critical')
+        );
+
+        if ($options) {
+            extract($options);
+            $g->setOptions($width, $height, $ignore);
+        } else {
+            $g->setOptions();
+        }
+
+        $this->assertTrue($g->generate($uri));
     }
 }

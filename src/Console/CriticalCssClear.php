@@ -20,7 +20,5 @@ class CriticalCssClear extends CriticalCssCommand
     public function handle()
     {
         parent::handle();
-
-        $this->removeOldCss();
     }
 }
