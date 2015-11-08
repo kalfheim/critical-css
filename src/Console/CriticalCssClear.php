@@ -7,7 +7,7 @@ class CriticalCssClear extends CriticalCssCommand
     /**
      * {@inheritdoc}
      */
-    protected $signature = 'criticalcss:clear';
+    protected $name = 'criticalcss:clear';
 
     /**
      * {@inheritdoc}

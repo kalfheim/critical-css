@@ -9,7 +9,7 @@ class CriticalCssMake extends CriticalCssCommand
     /**
      * {@inheritdoc}
      */
-    protected $signature = 'criticalcss:make';
+    protected $name = 'criticalcss:make';
 
     /**
      * {@inheritdoc}
