@@ -26,11 +26,30 @@ class CriticalCssServiceProvider extends ServiceProvider
     {
         $this->setupConfig();
 
-        if ($this->app['config']->get('criticalcss.blade_directive')) {
+        if ($this->shouldRegisterBladeDirective()) {
             BladeUtils::registerBladeDirective(
                 $this->app['view']->getEngineResolver()->resolve('blade')->getCompiler()
             );
         }
+    }
+
+    /**
+     * Should the Blade directive be registered?
+     * Fixes compatibility issues with Laravel 5.0.
+     *
+     * @return bool
+     */
+    protected function shouldRegisterBladeDirective()
+    {
+        if (!$this->app['config']->get('criticalcss.blade_directive')) {
+            return false;
+        }
+
+        if ($this->app->runningInConsole()) {
+            return false;
+        }
+
+        return true;
     }
 
     /**
