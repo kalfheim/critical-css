@@ -14,12 +14,6 @@ class FacadesTest extends TestCase
                 ->with('foo')
                 ->andReturn('.css{}');
 
-        // $app = m::mock(Application::class);
-
-        // $app->shouldReceive('make')->once()
-        //     ->with('criticalcss.storage')
-        //     ->andReturn($storage);
-
         $app = new ApplicationStub;
         $app->setAttributes(['criticalcss.storage' => $storage]);
 

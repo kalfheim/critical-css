@@ -91,10 +91,6 @@ class CriticalCssServiceProvider extends ServiceProvider
             });
         });
 
-        // $this->app->singleton('criticalcss.htmlfetcher', function ($app) {
-        //     return new LaravelHtmlFetcher;
-        // });
-
         $this->app->singleton('criticalcss.cssgenerator', function ($app) {
             $generator = new CriticalGenerator(
                 array_map('public_path', $app['config']->get('criticalcss.css')),
