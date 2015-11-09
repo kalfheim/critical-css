@@ -3,6 +3,7 @@
 namespace Krisawzm\CriticalCss\Console;
 
 use Artisan;
+use InvalidArgumentException;
 
 class CriticalCssMake extends CriticalCssCommand
 {
@@ -86,6 +87,16 @@ class CriticalCssMake extends CriticalCssCommand
     {
         $this->info('Clearing compiled views');
 
-        Artisan::call('view:clear');
+        try {
+            Artisan::call('view:clear');
+        } catch (InvalidArgumentException $e) {
+            $views = $this->laravel['files']->glob(
+                $this->laravel['config']['view.compiled'].'/*'
+            );
+
+            foreach ($views as $view) {
+                $this->laravel['files']->delete($view);
+            }
+        }
     }
 }
