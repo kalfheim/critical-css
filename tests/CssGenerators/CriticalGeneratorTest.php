@@ -93,4 +93,30 @@ class CriticalGeneratorTest extends TestCase
 
         $this->assertTrue($g->generate($uri));
     }
+
+    public function testGenerateWithUriAlias()
+    {
+        $uri   = 'users/10';
+        $alias = 'users/profile';
+
+        $fetcher = m::mock(HtmlFetcherInterface::class);
+        $fetcher->shouldReceive('fetch')->once()
+                ->with($uri)
+                ->andReturn(file_get_contents($this->html));
+
+        $storage = m::mock(StorageInterface::class);
+        $storage->shouldReceive('writeCss')->once()
+                ->with($alias, 'html{font-size:16px}body{background-image:url(/some-image.jpg)}.class{color:lightred}.other-class{color:#90ee90}')
+                ->andReturn(true);
+
+        $g = new CriticalGenerator($this->css, $fetcher, $storage);
+
+        $g->setCriticalBin(
+            realpath(__DIR__.'/../../node_modules/.bin/critical')
+        );
+
+        $g->setOptions();
+
+        $this->assertTrue($g->generate($uri, $alias));
+    }
 }

@@ -16,9 +16,16 @@ interface HtmlFetcherInterface
     /**
      * Returns the full HTML contents of a given URI.
      *
-     * @param  string $uri  The URI to fetch HTML from.
+     * @param  string      $uri
+     *         The URI to fetch HTML from.
      *
-     * @return string       The HTML contents.
+     * @param  string|null $alias
+     *         If specified, the stored result should be accessible from
+     *         `StorageInterface::readCss($uri)` using this alias instead of
+     *         the original URI.
+     *
+     * @return string
+     *         The HTML contents.
      *
      * @throws \Krisawzm\CriticalCss\HtmlFetchers\HtmlFetchingException
      */

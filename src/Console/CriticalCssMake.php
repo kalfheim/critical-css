@@ -25,13 +25,32 @@ class CriticalCssMake extends CriticalCssCommand
 
         $cssGenerator = $this->laravel->make('criticalcss.cssgenerator');
 
-        foreach ($this->getUris() as $uri) {
+        foreach ($this->getUris() as $key => $uri) {
             $this->info(sprintf('Processing URI [%s]', $uri));
 
-            $cssGenerator->generate($uri);
+            $cssGenerator->generate($uri, $this->getUriAlias($key));
         }
 
         $this->clearViews();
+    }
+
+    /**
+     * Returns the alias for a URI, if there is any. If not, returns null.
+     *
+     * @param  string|int $key The key for the given array item.
+     *
+     * @return string|null
+     */
+    protected function getUriAlias($key)
+    {
+        // If the key is a string, assume it's specified by the user, and
+        // therefore is an alias.
+        if (is_string($key)) {
+            return $key;
+        }
+
+        // If not, return null.
+        return null;
     }
 
     /**

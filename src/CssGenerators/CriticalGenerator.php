@@ -77,7 +77,7 @@ class CriticalGenerator implements CssGeneratorInterface
     /**
      * {@inheritdoc}
      */
-    public function generate($uri)
+    public function generate($uri, $alias = null)
     {
         $html = $this->htmlFetcher->fetch($uri);
 
@@ -115,6 +115,9 @@ class CriticalGenerator implements CssGeneratorInterface
             );
         }
 
-        return $this->storage->writeCss($uri, $process->getOutput());
+        return $this->storage->writeCss(
+            is_null($alias) ? $uri : $alias,
+            $process->getOutput()
+        );
     }
 }
