@@ -8,13 +8,15 @@ A Laravel package for generating and using inline critical-path CSS.
 
 > For best performance, you may want to consider inlining the critical CSS directly into the HTML document. This eliminates additional roundtrips in the critical path and if done correctly can be used to deliver a “one roundtrip” critical path length where only the HTML is a blocking resource.
 
-More info at https://github.com/addyosmani/critical/blob/master/README.md#why
+More critical-path CSS resources:
+
+- https://github.com/addyosmani/critical/blob/master/README.md#why
 
 ## Installation
 
-### 1) Install the Critical tool
+### 1) Install the Critical npm package
 
-First, you'll need to install the Critical tool from npm. This tool is used to extract critical-path CSS from an HTML document.
+This package is used to extract critical-path CSS from an HTML document.
 
 From your project's base path, run:
 
@@ -30,7 +32,7 @@ Next, you'll need to require the package using Composer:
 
 From your project's base path, run:
 
-    $ composer require krisawzm/critical-css --save
+    $ composer require krisawzm/critical-css
 
 ### 3) Configure Laravel
 
