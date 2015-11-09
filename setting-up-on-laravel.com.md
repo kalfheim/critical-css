@@ -44,7 +44,7 @@ You've got two options:
 
 **1)** Installing as a project dependency:
 
-    $ npm install critical --save-dev
+    $ npm install critical --save
 
 **2)** Installing globally:
 
@@ -66,7 +66,11 @@ Again, two options:
 
 **2)** Register the service provider by adding the following to the `providers` key in **config/app.php**:
 
+``` php
+'providers' => [
     Krisawzm\CriticalCss\CriticalCssServiceProvider::class,
+];
+```
 
 **3)** Publish vendor assets by running:
 
@@ -74,8 +78,12 @@ Again, two options:
 
 **4)** Set up the two Artisan commands by adding the following to the `$commands` property in **app/Console/Kernel.php**:
 
+``` php
+protected $commands = [
     \Krisawzm\CriticalCss\Console\CriticalCssMake::class,
     \Krisawzm\CriticalCss\Console\CriticalCssClear::class,
+];
+```
 
 ### 3. Configuring the critical-css package
 
@@ -92,6 +100,74 @@ For Laravel.com, I ended up with something like this:
 ],
 ```
 
-Since all the documentation pages are similar in design and layout, I won't bother adding more than just one.
+I won't bother adding more than one route for the docs, since all the documentation pages are very similar in both design and layout.
 
-> **Note:** Because Laravel.com is still running Laravel 5.0, I had to set `'blade_directive' => false,`. This is not recommended, but because [Custom Directives](http://laravel.com/docs/5.1/blade#extending-blade) were introduced in 5.1, it had to be done.
+I also set the following for the `css` property:
+
+``` php
+'css' => ['assets/css/laravel.css'],
+```
+
+### 4. Adding critical-path CSS to the Blade views
+
+When inlining critical-path CSS, it's important to make sure the full CSS is loaded asynchronously. For that purpose, we'll be using filamentgroup's [loadCSS](https://github.com/filamentgroup/loadCSS).
+
+`app.blade.php` is Laravel.com's main view, which `docs.blade.php` and `marketing.blade.php` (the index) extends.
+
+In **resources/views/app.blade.php**, add the following before the `</head>` tag.
+
+``` html
+<head>
+    ... other stuff ...
+
+    @yield('critical-css')
+
+    <script>
+    !function(a){"use strict";var b=function(b,c,d){var g,e=a.document,f=e.createElement("link");if(c)g=c;else{var h=(e.body||e.getElementsByTagName("head")[0]).childNodes;g=h[h.length-1]}var i=e.styleSheets;f.rel="stylesheet",f.href=b,f.media="only x",g.parentNode.insertBefore(f,c?g:g.nextSibling);var j=function(a){for(var b=f.href,c=i.length;c--;)if(i[c].href===b)return a();setTimeout(function(){j(a)})};return f.onloadcssdefined=j,j(function(){f.media=d||"all"}),f};"undefined"!=typeof module?module.exports=b:a.loadCSS=b}("undefined"!=typeof global?global:this);
+
+    loadCSS('{{ elixir('assets/css/laravel.css') }}');
+    </script>
+</head>
+```
+
+And, of course, remove `<link rel="stylesheet" href="{{ elixir('assets/css/laravel.css') }}">`.
+
+Add the following in  **resources/views/docs.blade.php**, below `@extends('app')`:
+
+``` php
+@section('critical-css')
+    @criticalCss('docs')
+@endsection
+```
+
+Same story for  **resources/views/marketing.blade.php**, but with the `/` route:
+
+``` php
+@section('critical-css')
+    @criticalCss('/')
+@endsection
+```
+
+**Wrap up** by running the command which generates the critical-path CSS:
+
+    php artisan criticalcss:make
+
+---
+
+### A note on Laravel 5.0 compatibility
+
+Because Laravel.com is still running Laravel 5.0, I had to set `'blade_directive' => false,`. This is **not** recommended, but because [Custom Directives](http://laravel.com/docs/5.1/blade#extending-blade) were introduced in 5.1, it had to be done.
+
+This requires the use of adding the following to the `aliases` key in **config/app.php**:
+
+``` php
+'aliases' => [
+    'Critical' => Krisawzm\CriticalCss\Facades\Critical::class,
+];
+```
+
+In your Blade views, you'll now be able to do the following instead of `@criticalCss('some/route')`:
+
+``` php
+{!! Critical::css('some/route') !!}
+```

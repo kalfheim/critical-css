@@ -2,15 +2,14 @@
 
 A Laravel package for generating and using inline critical-path CSS.
 
-**The goal of this package** is to make it easy for Laravel developers (and PHP developers in general) to inline critical-path CSS in their projects.
-
 ## Why?
 
 > For best performance, you may want to consider inlining the critical CSS directly into the HTML document. This eliminates additional roundtrips in the critical path and if done correctly can be used to deliver a “one roundtrip” critical path length where only the HTML is a blocking resource.
 
-More critical-path CSS resources:
+More information:
 
 - https://github.com/addyosmani/critical/blob/master/README.md#why
+- https://developers.google.com/web/fundamentals/performance/
 
 ## Installation
 
@@ -20,7 +19,7 @@ This package is used to extract critical-path CSS from an HTML document.
 
 From your project's base path, run:
 
-    $ npm install --save-dev critical
+    $ npm install critical --save
 
 Alternatively, install it globally:
 
@@ -93,7 +92,7 @@ Simply call that directive, passing a route as the only argument, like so:
 
 If no argument is passed, the current route will be used, however, I highly recommend always passing a specific route.
 
-And of course, make sure to asynchronously load the full CSS for the page using something like loadCss (https://github.com/filamentgroup/loadCSS).
+And of course, make sure to asynchronously load the full CSS for the page using something like loadCSS (https://github.com/filamentgroup/loadCSS).
 
 Full example (using Elixir to generate the URL for the CSS file, which or course is optional):
 
@@ -104,7 +103,7 @@ Full example (using Elixir to generate the URL for the CSS file, which or course
   @criticalCss('some/route')
   <script>
     !function(a){"use strict";var b=function(b,c,d){var g,e=a.document,f=e.createElement("link");if(c)g=c;else{var h=(e.body||e.getElementsByTagName("head")[0]).childNodes;g=h[h.length-1]}var i=e.styleSheets;f.rel="stylesheet",f.href=b,f.media="only x",g.parentNode.insertBefore(f,c?g:g.nextSibling);var j=function(a){for(var b=f.href,c=i.length;c--;)if(i[c].href===b)return a();setTimeout(function(){j(a)})};return f.onloadcssdefined=j,j(function(){f.media=d||"all"}),f};"undefined"!=typeof module?module.exports=b:a.loadCSS=b}("undefined"!=typeof global?global:this);
-    loadCss(elixir('css/app.css'));
+    loadCSS('{{ elixir('css/app.css') }}');
   </script>
 </head>
 </html>
