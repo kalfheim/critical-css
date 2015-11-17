@@ -53,8 +53,8 @@ return [
     | Width and height of the target viewport.
     |
     */
-    'width'  => 900,
-    'height' => 1300,
+    'width'  => 1300,
+    'height' => 900,
 
     /*
     |--------------------------------------------------------------------------
