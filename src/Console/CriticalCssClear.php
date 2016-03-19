@@ -1,6 +1,6 @@
 <?php
 
-namespace Krisawzm\CriticalCss\Console;
+namespace Alfheim\CriticalCss\Console;
 
 class CriticalCssClear extends CriticalCssCommand
 {

@@ -3,7 +3,7 @@
 use Mockery as m;
 
 use Illuminate\Contracts\Filesystem\Filesystem;
-use Krisawzm\CriticalCss\Storage\LaravelStorage;
+use Alfheim\CriticalCss\Storage\LaravelStorage;
 
 class LaravelStorageTest extends TestCase
 {
@@ -115,7 +115,7 @@ class LaravelStorageTest extends TestCase
     }
 
     /**
-     * @expectedException \Krisawzm\CriticalCss\Storage\CssWriteException
+     * @expectedException \Alfheim\CriticalCss\Storage\CssWriteException
      */
     public function testWriteCssWithFail()
     {

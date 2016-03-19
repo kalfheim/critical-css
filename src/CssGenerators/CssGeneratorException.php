@@ -1,9 +1,10 @@
 <?php
 
-namespace Krisawzm\CriticalCss\CssGenerators;
+namespace Alfheim\CriticalCss\CssGenerators;
 
 use RuntimeException;
 
 class CssGeneratorException extends RuntimeException
 {
+    //
 }

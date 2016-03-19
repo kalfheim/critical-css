@@ -1,4 +1,4 @@
-# critical-css [![Build Status](https://travis-ci.org/krisawzm/critical-css.svg)](https://travis-ci.org/krisawzm/critical-css)
+# critical-css [![Build Status](https://travis-ci.org/kalfheim/critical-css.svg)](https://travis-ci.org/kalfheim/critical-css)
 
 A Laravel package for generating and using inline critical-path CSS.
 
@@ -56,7 +56,7 @@ Add the following to the `providers` key in `config/app.php`:
 
 ``` php
 'providers' => [
-    Krisawzm\CriticalCss\CriticalCssServiceProvider::class,
+    Alfheim\CriticalCss\CriticalCssServiceProvider::class,
 ];
 ```
 
@@ -66,8 +66,8 @@ To get access to the `criticalcss:clear` and `criticalcss:make` commands, add th
 
 ``` php
 protected $commands = [
-    \Krisawzm\CriticalCss\Console\CriticalCssMake::class,
-    \Krisawzm\CriticalCss\Console\CriticalCssClear::class,
+    \Alfheim\CriticalCss\Console\CriticalCssMake::class,
+    \Alfheim\CriticalCss\Console\CriticalCssClear::class,
 ];
 ```
 
@@ -77,7 +77,7 @@ Generate a template for the `config/criticalcss.php` file by running:
 
     $ php artisan vendor:publish
 
-> **Note:** Descriptions for the config options are only present in the config file, **not** in this readme. Click [here](https://github.com/krisawzm/critical-css/blob/master/src/config/criticalcss.php) to open the config file on GitHub.
+> **Note:** Descriptions for the config options are only present in the config file, **not** in this readme. Click [here](https://github.com/kalfheim/critical-css/blob/master/src/config/criticalcss.php) to open the config file on GitHub.
 
 ## Usage
 
@@ -91,7 +91,7 @@ Providing everything is set up and configured properly, all you need to do in or
 
 This will generate a unique file for each of the URIs (routes) provided.
 
-See [this commit](https://github.com/krisawzm/critical-css-demo/commit/8288ba8971fc7381ef933affdde3b3d71c5475e3) for a diff of the implementation.
+See [this commit](https://github.com/kalfheim/critical-css-demo/commit/8288ba8971fc7381ef933affdde3b3d71c5475e3) for a diff of the implementation.
 
 ### Using critical-path CSS with Blade templates
 
@@ -133,9 +133,9 @@ For multiple views, you may wrap `@criticalCss` in a `@section`, then `@yield` t
 
 I made a simple demo using [this](http://startbootstrap.com/template-overviews/clean-blog/) Bootstrap theme. It's a fairly simple theme, and it does not have any major performance issues, but yet, implementing inline critical-path CSS **did** improve performance.
 
-Demo repo: https://github.com/krisawzm/critical-css-demo
+Demo repo: https://github.com/kalfheim/critical-css-demo
 
-See [this commit](https://github.com/krisawzm/critical-css-demo/commit/8288ba8971fc7381ef933affdde3b3d71c5475e3) for a diff of the implementation.
+See [this commit](https://github.com/kalfheim/critical-css-demo/commit/8288ba8971fc7381ef933affdde3b3d71c5475e3) for a diff of the implementation.
 
 ### [PageSpeed Insights](https://developers.google.com/speed/pagespeed/insights/) results
 
@@ -152,7 +152,7 @@ This will require adding the following to the `aliases` key in **config/app.php*
 
 ``` php
 'aliases' => [
-    'Critical' => Krisawzm\CriticalCss\Facades\Critical::class,
+    'Critical' => Alfheim\CriticalCss\Facades\Critical::class,
 ];
 ```
 

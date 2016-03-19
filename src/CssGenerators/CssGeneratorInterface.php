@@ -1,9 +1,9 @@
 <?php
 
-namespace Krisawzm\CriticalCss\CssGenerators;
+namespace Alfheim\CriticalCss\CssGenerators;
 
-use Krisawzm\CriticalCss\Storage\StorageInterface;
-use Krisawzm\CriticalCss\HtmlFetchers\HtmlFetcherInterface;
+use Alfheim\CriticalCss\Storage\StorageInterface;
+use Alfheim\CriticalCss\HtmlFetchers\HtmlFetcherInterface;
 
 /**
  * The purpose of this interface is to generate and store critical-path CSS.
@@ -15,10 +15,10 @@ interface CssGeneratorInterface
      *
      * @param  array $css  Files to extract CSS from.
      *
-     * @param  \Krisawzm\CriticalCss\HtmlFetchers\HtmlFetcherInterface $htmlFetcher
+     * @param  \Alfheim\CriticalCss\HtmlFetchers\HtmlFetcherInterface $htmlFetcher
      *         Provides the HTML source to be operated against.
      *
-     * @param \Krisawzm\CriticalCss\Storage\StorageInterface $storage
+     * @param \Alfheim\CriticalCss\Storage\StorageInterface $storage
      *         Provides a storage driver to write the output to.
      *
      * @return void
@@ -34,7 +34,7 @@ interface CssGeneratorInterface
      *
      * @return bool         Indicating successful write to the StorageInterface.
      *
-     * @throws \Krisawzm\CriticalCss\CssGenerators\CssGeneratorException
+     * @throws \Alfheim\CriticalCss\CssGenerators\CssGeneratorException
      */
     public function generate($uri);
 }

@@ -1,9 +1,9 @@
 <?php
 
 use Mockery as m;
-use Krisawzm\CriticalCss\Storage\StorageInterface;
-use Krisawzm\CriticalCss\CssGenerators\CriticalGenerator;
-use Krisawzm\CriticalCss\HtmlFetchers\HtmlFetcherInterface;
+use Alfheim\CriticalCss\Storage\StorageInterface;
+use Alfheim\CriticalCss\CssGenerators\CriticalGenerator;
+use Alfheim\CriticalCss\HtmlFetchers\HtmlFetcherInterface;
 
 class CriticalGeneratorTest extends TestCase
 {
@@ -40,7 +40,7 @@ class CriticalGeneratorTest extends TestCase
     }
 
     /**
-     * @expectedException \Krisawzm\CriticalCss\CssGenerators\CssGeneratorException
+     * @expectedException \Alfheim\CriticalCss\CssGenerators\CssGeneratorException
      */
     public function testFailingGeneration()
     {

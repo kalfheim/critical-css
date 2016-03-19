@@ -1,6 +1,6 @@
 <?php
 
-namespace Krisawzm\CriticalCss\Storage;
+namespace Alfheim\CriticalCss\Storage;
 
 use Illuminate\Contracts\Filesystem\Filesystem;
 
