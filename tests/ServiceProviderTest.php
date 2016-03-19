@@ -1,7 +1,7 @@
 <?php
 
 use Mockery as m;
-use Krisawzm\CriticalCss\CriticalCssServiceProvider;
+use Alfheim\CriticalCss\CriticalCssServiceProvider;
 use Illuminate\Contracts\Foundation\Application;
 
 class ServiceProviderTest extends TestCase

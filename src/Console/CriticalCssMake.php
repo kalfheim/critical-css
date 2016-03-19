@@ -1,6 +1,6 @@
 <?php
 
-namespace Krisawzm\CriticalCss\Console;
+namespace Alfheim\CriticalCss\Console;
 
 use Artisan;
 use InvalidArgumentException;

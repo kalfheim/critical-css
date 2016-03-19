@@ -1,9 +1,9 @@
 <?php
 
-namespace Krisawzm\CriticalCss;
+namespace Alfheim\CriticalCss;
 
 use Mockery as m;
-use Krisawzm\CriticalCss\BladeUtils;
+use Alfheim\CriticalCss\BladeUtils;
 use Illuminate\View\Compilers\BladeCompiler;
 
 class BladeUtilsTest extends \TestCase
@@ -56,7 +56,7 @@ function app($a)
         static $storage = null;
 
         if (is_null($storage)) {
-            $storage = m::mock('Krisawzm\CriticalCss\Storage\StorageInterface');
+            $storage = m::mock('Alfheim\CriticalCss\Storage\StorageInterface');
 
             $storage->shouldReceive('css')->once()
                     ->with(m::type('string'))

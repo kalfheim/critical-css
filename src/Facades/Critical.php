@@ -1,6 +1,6 @@
 <?php
 
-namespace Krisawzm\CriticalCss\Facades;
+namespace Alfheim\CriticalCss\Facades;
 
 use Illuminate\Support\Facades\Facade;
 

@@ -1,9 +1,9 @@
 <?php
 
 use Mockery as m;
-use Krisawzm\CriticalCss\Facades\Critical;
+use Alfheim\CriticalCss\Facades\Critical;
 use Illuminate\Contracts\Foundation\Application;
-use Krisawzm\CriticalCss\Storage\StorageInterface;
+use Alfheim\CriticalCss\Storage\StorageInterface;
 
 class FacadesTest extends TestCase
 {

@@ -1,6 +1,6 @@
 <?php
 
-namespace Krisawzm\CriticalCss;
+namespace Alfheim\CriticalCss;
 
 use Illuminate\View\Compilers\BladeCompiler;
 

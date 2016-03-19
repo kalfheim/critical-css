@@ -1,9 +1,10 @@
 <?php
 
-namespace Krisawzm\CriticalCss\Storage;
+namespace Alfheim\CriticalCss\Storage;
 
 use RuntimeException;
 
 class CssReadException extends RuntimeException
 {
+    //
 }
