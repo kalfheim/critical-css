@@ -11,11 +11,11 @@
   "license": "MIT",
   "require": {
     "php": ">=5.5.9",
-    "illuminate/contracts": "5.0.*|5.1.*",
-    "illuminate/support": "5.0.*|5.1.*",
-    "illuminate/console": "5.0.*|5.1.*",
-    "illuminate/http": "5.0.*|5.1.*",
-    "illuminate/view": "5.0.*|5.1.*",
+    "illuminate/contracts": "5.0.*|5.1.*|5.2.*",
+    "illuminate/support": "5.0.*|5.1.*|5.2.*",
+    "illuminate/console": "5.0.*|5.1.*|5.2.*",
+    "illuminate/http": "5.0.*|5.1.*|5.2.*",
+    "illuminate/view": "5.0.*|5.1.*|5.2.*",
     "symfony/process": "^2.6"
   },
   "require-dev": {
