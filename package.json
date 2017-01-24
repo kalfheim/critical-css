@@ -1,5 +1,5 @@
 {
   "dependencies": {
-    "critical": "^0.8.1"
+    "critical": "^0.6.0"
   }
 }
