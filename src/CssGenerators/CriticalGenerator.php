@@ -71,7 +71,7 @@ class CriticalGenerator implements CssGeneratorInterface
      *
      * @return void
      */
-    public function setOptions($width = 900, $height = 1300, array $ignore = [], $timeout)
+    public function setOptions($width = 900, $height = 1300, array $ignore = [], $timeout = 30000)
     {
         $this->width  = $width;
         $this->height = $height;
