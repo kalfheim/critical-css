@@ -8,7 +8,7 @@
  */
 
 return [
-    
+
     /*
     |--------------------------------------------------------------------------
     | Routes
@@ -29,7 +29,7 @@ return [
     | parameters filled out.) Make sure the request won't 404.
     |
     */
-    
+
     'routes' => [
         // 'static/route',               // In Blade: `@criticalCss('static/route')`
         // 'users/profile' => 'users/1', // In Blade: `@criticalCss('users/profile')`
@@ -45,7 +45,7 @@ return [
     | The file is relative to the public path, i.e., `public_path($css)`.
     |
     */
-    
+
     'css' => ['css/app.css', 'css/app2.css'],
 
     /*
@@ -56,7 +56,7 @@ return [
     | Width and height of the target viewport.
     |
     */
-    
+
     'width'  => 1300,
     'height' => 900,
 
@@ -70,7 +70,7 @@ return [
     | @see https://github.com/bezoerb/filter-css
     |
     */
-    
+
     'ignore' => [
         // Removes @font-face blocks
         // '@font-face',
@@ -90,7 +90,7 @@ return [
     | The directory which the generated critical-path CSS is stored.
     |
     */
-    
+
     'storage' => 'critical-css',
 
     /*
@@ -105,7 +105,7 @@ return [
     | Remember to run `php artisan view:clear` after re-disabling this.
     |
     */
-    
+
     'pretend' => env('CRITICALCSS_PRETEND', false),
 
     /*
@@ -118,7 +118,7 @@ return [
     | If your app is running on Laravel 5.0, this must be disabled.
     |
     */
-    
+
     'blade_directive' => true,
 
     /*
@@ -131,7 +131,17 @@ return [
     | installed globally, you may simply use 'critical'.
     |
     */
-    
+
     'critical_bin' => base_path('node_modules/.bin/critical'),
 
+    /*
+    |--------------------------------------------------------------------------
+    | Timeout
+    |--------------------------------------------------------------------------
+    |
+    |
+    |
+    */
+
+    'timeout' => 90000,
 ];
