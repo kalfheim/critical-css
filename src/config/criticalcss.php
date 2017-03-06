@@ -139,9 +139,12 @@ return [
     | Timeout
     |--------------------------------------------------------------------------
     |
-    |
+    | Sets a maximum timeout, in milliseconds, for a css generation of one route.
+    | This parameter is passed to the Critical executable.
+    | Default value is 30000.
     |
     */
 
-    'timeout' => 90000,
+    'timeout' => 30000,
+
 ];
