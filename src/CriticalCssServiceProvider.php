@@ -106,7 +106,7 @@ class CriticalCssServiceProvider extends ServiceProvider
                 $app['config']->get('criticalcss.width'),
                 $app['config']->get('criticalcss.height'),
                 $app['config']->get('criticalcss.ignore'),
-                $app['config']->get('criticalcss.timeout')
+                $app['config']->get('criticalcss.timeout', 30000)
             );
 
             return $generator;

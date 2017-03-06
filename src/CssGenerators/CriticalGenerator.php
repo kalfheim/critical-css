@@ -34,7 +34,7 @@ class CriticalGenerator implements CssGeneratorInterface
     /** @var array */
     protected $ignore;
 
-    /** @var int */
+    /** @var int|null */
     protected $timeout;
 
     /**
@@ -64,14 +64,14 @@ class CriticalGenerator implements CssGeneratorInterface
     /**
      * Set optional options for Critical.
      *
-     * @param  int   $width
-     * @param  int   $height
-     * @param  array $ignore
-     * @param  int $timeout
+     * @param  int      $width
+     * @param  int      $height
+     * @param  array    $ignore
+     * @param  int|null $timeout
      *
      * @return void
      */
-    public function setOptions($width = 900, $height = 1300, array $ignore = [], $timeout = 30000)
+    public function setOptions($width = 900, $height = 1300, array $ignore = [], $timeout = null)
     {
         $this->width  = $width;
         $this->height = $height;
@@ -95,8 +95,11 @@ class CriticalGenerator implements CssGeneratorInterface
             '--width='.$this->width,
             '--height='.$this->height,
             '--minify',
-            '--timeout'.$this->timeout,
         ]);
+
+        if (!is_null($this->timeout)) {
+            $builder->add('--timeout='.$this->timeout);
+        }
 
         foreach ($this->css as $css) {
             $builder->add('--css='.$css);
