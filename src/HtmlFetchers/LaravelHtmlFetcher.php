@@ -16,9 +16,6 @@ class LaravelHtmlFetcher implements HtmlFetcherInterface
     /** @var \Illuminate\Contracts\Foundation\Application */
     protected $app = null;
 
-    /** @var \Closure */
-    protected $appMaker;
-
     /**
      * Create a new instance.
      *
