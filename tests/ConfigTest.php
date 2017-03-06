@@ -12,6 +12,7 @@ class ConfigTest extends TestCase
         'pretend'         => 'string',
         'blade_directive' => 'bool',
         'critical_bin'    => 'string',
+        'timeout'         => 'integer',
     ];
 
     public function testConfigIsOk()
