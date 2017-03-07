@@ -89,7 +89,7 @@ class CriticalGenerator implements CssGeneratorInterface
         $builder = new ProcessBuilder;
 
         $builder->setPrefix($this->criticalBin);
-        $builder->setTimeout($this->timeout);
+
         $builder->setArguments([
             '--base='.realpath(__DIR__.'/../.tmp'),
             '--width='.$this->width,
@@ -98,6 +98,8 @@ class CriticalGenerator implements CssGeneratorInterface
         ]);
 
         if (!is_null($this->timeout)) {
+            $builder->setTimeout($this->timeout);
+
             $builder->add('--timeout='.$this->timeout);
         }
 
