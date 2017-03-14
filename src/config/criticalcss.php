@@ -62,7 +62,7 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Ingore Rules
+    | Ignore Rules
     |--------------------------------------------------------------------------
     |
     | CSS rules to ignore. See filter-css for usage examples. You will also
