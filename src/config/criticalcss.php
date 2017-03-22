@@ -28,11 +28,24 @@ return [
     | Blade. The _value_ is the URI to request HTML from (the route with the
     | parameters filled out.) Make sure the request won't 404.
     |
+    | If You want to use route specific css use the field as a array of route
+    | and css as ['/route', 'css/file.css']. This way it insures that
+    | the css is used accurately from the exact css file instead of entire css array
+    |
+    | NOTE: if route specific css are not defined, CSS Files(s) array will be used
+    |
     */
 
     'routes' => [
         // 'static/route',               // In Blade: `@criticalCss('static/route')`
         // 'users/profile' => 'users/1', // In Blade: `@criticalCss('users/profile')`
+
+        // route specific css
+        // ['/route', 'css/file.css'],   // In Blade: `@criticalCss('/route')`
+        // [
+        //      'users/profile' => 'users/1',
+        //      'css' => 'css/file.css'
+        // ],                            // In Blade: `@criticalCss('users/profile')`
     ],
 
     /*
