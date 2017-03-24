@@ -28,11 +28,12 @@ return [
     | Blade. The _value_ is the URI to request HTML from (the route with the
     | parameters filled out.) Make sure the request won't 404.
     |
-    | If You want to use route specific css use the field as a array of route
-    | and css as ['/route', 'css/file.css']. This way it insures that
-    | the css is used accurately from the exact css file instead of entire css array
+    | To use route specific css define the field as an array of route and css
+    | like ['/route', 'css/file.css']. This way it insures that the css is
+    | used accurately from the exact css file needed instead of entire css array.
     |
-    | NOTE: if route specific css are not defined, CSS Files(s) array will be used
+    | NOTE: if route specific css are not defined as an array,
+    |       CSS Files(s) array will be used.
     |
     */
 
