@@ -26,10 +26,17 @@ class CriticalCssMake extends CriticalCssCommand
 
         $cssGenerator = $this->laravel->make('criticalcss.cssgenerator');
 
-        foreach ($this->getUris() as $key => $uri) {
-            $this->info(sprintf('Processing URI [%s]', $uri));
-
-            $cssGenerator->generate($uri, $this->getUriAlias($key));
+        foreach ($this->getUris() as $key => $obj) {
+            if(is_array($obj)) {
+                $uri = array_values($obj)[0];
+                $key = array_keys($obj)[0];
+                $routeCss = isset(array_values($obj)[1]) ? public_path(array_values($obj)[1]) : '';
+                $this->info(sprintf('Processing URI [%s]', $uri));
+                $cssGenerator->generate($uri, $this->getUriAlias($key), $routeCss);
+            } else {
+                $this->info(sprintf('Processing URI [%s]', $obj));
+                $cssGenerator->generate($obj, $this->getUriAlias($key));
+            }
         }
 
         $this->clearViews();
