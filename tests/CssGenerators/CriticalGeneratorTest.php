@@ -122,7 +122,6 @@ class CriticalGeneratorTest extends TestCase
 
     public function testGenerateWithRouteCss()
     {
-        dd(public_path());
         $uri   = 'users/10';
         $alias = 'users/profile';
         $routeCss = $this->css[0];
