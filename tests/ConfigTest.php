@@ -9,7 +9,7 @@ class ConfigTest extends TestCase
         'height'          => 'integer',
         'ignore'          => 'array',
         'storage'         => 'string',
-        'pretend'         => 'bool',
+        'pretend'         => 'string',
         'blade_directive' => 'bool',
         'critical_bin'    => 'string',
         'timeout'         => 'integer',
@@ -30,6 +30,13 @@ class ConfigTest extends TestCase
 
             $this->assertInternalType($type, $value[$key]);
         }
+    }
+}
+
+if (! function_exists('env')) {
+    function env($a, $b = null)
+    {
+        return $b;
     }
 }
 
