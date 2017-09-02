@@ -9,7 +9,7 @@ class ConfigTest extends TestCase
         'height'          => 'integer',
         'ignore'          => 'array',
         'storage'         => 'string',
-        'pretend'         => 'string',
+        'pretend'         => 'bool',
         'blade_directive' => 'bool',
         'critical_bin'    => 'string',
         'timeout'         => 'integer',
