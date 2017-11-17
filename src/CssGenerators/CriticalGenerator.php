@@ -44,9 +44,21 @@ class CriticalGenerator implements CssGeneratorInterface
                                 HtmlFetcherInterface $htmlFetcher,
                                 StorageInterface $storage)
     {
-        $this->css         = $css;
+        $this->css = $css;
+        $this->storage = $storage;
         $this->htmlFetcher = $htmlFetcher;
-        $this->storage     = $storage;
+    }
+
+    /**
+     * Set the path to the Critical bin (executable.)
+     *
+     * @param  string $critical
+     *
+     * @return void
+     */
+    public function setCredentials($credentials)
+    {
+        $this->htmlFetcher->credentials = $credentials;
     }
 
     /**

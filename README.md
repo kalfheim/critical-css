@@ -89,6 +89,10 @@ Providing everything is set up and configured properly, all you need to do in or
 
     $ php artisan criticalcss:make
 
+If your URIs are behind authentication you can use the following command:
+
+    $ php artisan criticalcss:authenticated
+
 This will generate a unique file for each of the URIs (routes) provided.
 
 See [this commit](https://github.com/kalfheim/critical-css-demo/commit/8288ba8971fc7381ef933affdde3b3d71c5475e3) for a diff of the implementation.
