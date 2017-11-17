@@ -4,6 +4,7 @@ namespace Alfheim\CriticalCss\HtmlFetchers;
 
 use Closure;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\Http\Kernel as HttpKernel;
 
@@ -16,6 +17,9 @@ class LaravelHtmlFetcher implements HtmlFetcherInterface
     /** @var \Illuminate\Contracts\Foundation\Application */
     protected $app = null;
 
+    /** @var array */
+    public $credentials;
+
     /**
      * Create a new instance.
      *
@@ -26,6 +30,7 @@ class LaravelHtmlFetcher implements HtmlFetcherInterface
     public function __construct(Closure $appMaker)
     {
         $this->app = $appMaker();
+        $this->credentials = [];
     }
 
     /**
@@ -33,7 +38,7 @@ class LaravelHtmlFetcher implements HtmlFetcherInterface
      */
     public function fetch($uri)
     {
-        $response = $this->call($uri);
+        $response = $this->call($uri, $this->credentials);
 
         if (!$response->isOk()) {
             throw new HtmlFetchingException(
@@ -65,11 +70,15 @@ class LaravelHtmlFetcher implements HtmlFetcherInterface
      *
      * @return \Illuminate\Http\Response
      */
-    protected function call($uri)
+    protected function call($uri, $credentials = [])
     {
         $request = Request::create($uri, 'GET');
 
         $kernel = $this->app->make(HttpKernel::class);
+
+        if (!empty($credentials)) {
+            Auth::attempt($credentials);
+        }
 
         $response = $kernel->handle($request);
 
