@@ -9,7 +9,7 @@ class ConfigTest extends TestCase
         'height'          => 'integer',
         'ignore'          => 'array',
         'storage'         => 'string',
-        'pretend'         => 'string',
+        'pretend'         => 'bool',
         'blade_directive' => 'bool',
         'critical_bin'    => 'string',
         'timeout'         => 'integer',
@@ -33,9 +33,11 @@ class ConfigTest extends TestCase
     }
 }
 
-function env($a, $b = null)
-{
-    return $a;
+if (! function_exists('env')) {
+    function env($a, $b = null)
+    {
+        return $b;
+    }
 }
 
 function base_path($a = '')
